@@ -1,0 +1,10 @@
+requests
+beautifulsoup4
+pdfplumber
+pandas
+# sqlite3 is included in the Python standard library
+fastapi
+uvicorn
+sentence-transformers
+faiss-cpu
+streamlit

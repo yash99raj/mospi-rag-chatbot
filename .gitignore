@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Data files (too large for git)
+data/raw/*.pdf
+data/processed/chunks/*.json
+data/processed/*.db
+
+# FAISS index
+data/processed/faiss_index/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# Playwright browsers (very large)
+ms-playwright/
+
+# Temp test files
+/tmp/
+test_*.py

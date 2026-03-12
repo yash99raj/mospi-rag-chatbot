@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # UI Application (Streamlit)
+  ui:
+    build: 
+      context: .
+      dockerfile: Dockerfile.ui
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_started
+    volumes:
+      - .:/app  # For live reloading during development
+
+  # Backend API (FastAPI)
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_URL=http://ollama:11434
+      - MODEL_NAME=llama3
+    depends_on:
+      - ollama
+    volumes:
+      - .:/app
+      - ./data:/app/data
+
+  # LLM Engine (Ollama)
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # When ollama starts, we should pull the llama3 model if it's missing.
+    # We do a basic check/pull using an entrypoint script or letting the user handle it via Make
+    # For robust deployments, uncomment the command below, but it delays start up significantly the first time
+    # command: sh -c "ollama serve & sleep 5 && ollama pull llama3 && wait"
+
+volumes:
+  ollama_data:
